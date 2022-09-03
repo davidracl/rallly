@@ -1,0 +1,33 @@
+name: Release a package
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release Version (e.g. 1.0.6)'
+        required: true
+
+jobs:
+  build-release:
+    name: Build and release Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Login to ghcr.io
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build \
+          -t "ghcr.io/${GITHUB_REPOSITORY}:${{ inputs.version }}" \
+          -t "ghcr.io/${GITHUB_REPOSITORY}:latest" .
+          
+      - name: Release Docker image
+        run: |
+          docker push "ghcr.io/${GITHUB_REPOSITORY}:${{ inputs.version }}"
+          docker push "ghcr.io/${GITHUB_REPOSITORY}:latest"
