@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "next-i18next";
-import { usePlausible } from "next-plausible";
+import posthog from "posthog-js";
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -17,7 +17,7 @@ import NameInput from "../name-input";
 import TruncatedLinkify from "../poll/truncated-linkify";
 import UserAvatar from "../poll/user-avatar";
 import { usePoll } from "../poll-context";
-import { isUnclaimed, useSession } from "../session";
+import { isUnclaimed, useUser } from "../user-provider";
 
 interface CommentForm {
   authorName: string;
@@ -39,18 +39,16 @@ const Discussion: React.VoidFunctionComponent = () => {
     },
   );
 
-  const plausible = usePlausible();
-
   const addComment = trpc.useMutation("polls.comments.add", {
     onSuccess: (newComment) => {
-      session.refresh();
+      posthog.capture("created comment");
+
       queryClient.setQueryData(
         ["polls.comments.list", { pollId }],
         (existingComments = []) => {
           return [...existingComments, newComment];
         },
       );
-      plausible("Created comment");
     },
   });
 
@@ -64,11 +62,11 @@ const Discussion: React.VoidFunctionComponent = () => {
       );
     },
     onSuccess: () => {
-      plausible("Deleted comment");
+      posthog.capture("deleted comment");
     },
   });
 
-  const session = useSession();
+  const session = useUser();
 
   const { register, reset, control, handleSubmit, formState } =
     useForm<CommentForm>({

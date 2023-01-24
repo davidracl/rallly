@@ -35,15 +35,35 @@ const dayjsLocales: Record<
     timeFormat: "24h",
     import: () => import("dayjs/locale/es"),
   },
+  ca: {
+    weekStartsOn: "monday",
+    timeFormat: "24h",
+    import: () => import("dayjs/locale/ca"),
+  },
+  da: {
+    weekStartsOn: "monday",
+    timeFormat: "24h",
+    import: () => import("dayjs/locale/da"),
+  },
   de: {
     weekStartsOn: "monday",
     timeFormat: "24h",
     import: () => import("dayjs/locale/de"),
   },
+  fi: {
+    weekStartsOn: "monday",
+    timeFormat: "24h",
+    import: () => import("dayjs/locale/fi"),
+  },
   fr: {
     weekStartsOn: "monday",
     timeFormat: "24h",
     import: () => import("dayjs/locale/fr"),
+  },
+  hr: {
+    weekStartsOn: "monday",
+    timeFormat: "24h",
+    import: () => import("dayjs/locale/hr"),
   },
   it: {
     weekStartsOn: "monday",
@@ -55,6 +75,21 @@ const dayjsLocales: Record<
     timeFormat: "24h",
     import: () => import("dayjs/locale/sv"),
   },
+  sk: {
+    weekStartsOn: "monday",
+    timeFormat: "24h",
+    import: () => import("dayjs/locale/sk"),
+  },
+  cs: {
+    weekStartsOn: "monday",
+    timeFormat: "24h",
+    import: () => import("dayjs/locale/cs"),
+  },
+  pl: {
+    weekStartsOn: "monday",
+    timeFormat: "24h",
+    import: () => import("dayjs/locale/pl"),
+  },
   pt: {
     weekStartsOn: "monday",
     timeFormat: "24h",
@@ -65,10 +100,20 @@ const dayjsLocales: Record<
     timeFormat: "24h",
     import: () => import("dayjs/locale/pt-br"),
   },
+  ru: {
+    weekStartsOn: "monday",
+    timeFormat: "24h",
+    import: () => import("dayjs/locale/ru"),
+  },
   ko: {
     weekStartsOn: "sunday",
     timeFormat: "12h",
     import: () => import("dayjs/locale/ko"),
+  },
+  nl: {
+    weekStartsOn: "monday",
+    timeFormat: "24h",
+    import: () => import("dayjs/locale/nl"),
   },
   hu: {
     weekStartsOn: "monday",
