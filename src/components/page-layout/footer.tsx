@@ -18,7 +18,7 @@ const Footer: React.VoidFunctionComponent = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
   return (
-    <div className="mt-16 bg-slate-50/70">
+    <div className="mt-16 bg-gradient-to-b from-gray-50/0 via-gray-50 to-gray-50 ">
       <div className="mx-auto max-w-7xl space-y-8 p-8 lg:flex lg:space-x-16 lg:space-y-0">
         <div className=" lg:w-2/6">
           <Logo className="w-32 text-slate-400" />
@@ -86,10 +86,11 @@ const Footer: React.VoidFunctionComponent = () => {
               </a>
             </li>
             <li>
-              <Link href="https://blog.rallly.co">
-                <a className="inline-block font-normal text-slate-400 hover:text-slate-800 hover:no-underline">
-                  {t("blog")}
-                </a>
+              <Link
+                href="https://blog.rallly.co"
+                className="inline-block font-normal text-slate-400 hover:text-slate-800 hover:no-underline"
+              >
+                {t("blog")}
               </Link>
             </li>
             <li>
@@ -101,10 +102,11 @@ const Footer: React.VoidFunctionComponent = () => {
               </a>
             </li>
             <li>
-              <Link href="/privacy-policy">
-                <a className="inline-block font-normal text-slate-400 hover:text-slate-800 hover:no-underline">
-                  {t("privacyPolicy")}
-                </a>
+              <Link
+                href="/privacy-policy"
+                className="inline-block font-normal text-slate-400 hover:text-slate-800 hover:no-underline"
+              >
+                {t("privacyPolicy")}
               </Link>
             </li>
           </ul>

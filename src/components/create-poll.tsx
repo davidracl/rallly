@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { usePlausible } from "next-plausible";
+import posthog from "posthog-js";
 import React from "react";
 import { useSessionStorage } from "react-use";
 
@@ -18,9 +18,9 @@ import {
   UserDetailsData,
   UserDetailsForm,
 } from "./forms";
-import { SessionProps, useSession, withSession } from "./session";
 import StandardLayout from "./standard-layout";
 import Steps from "./steps";
+import { useUser } from "./user-provider";
 
 type StepName = "eventDetails" | "options" | "userDetails";
 
@@ -37,7 +37,7 @@ const required = <T,>(v: T | undefined): T => {
 const initialNewEventData: NewEventData = { currentStep: 0 };
 const sessionStorageKey = "newEventFormData";
 
-export interface CreatePollPageProps extends SessionProps {
+export interface CreatePollPageProps {
   title?: string;
   location?: string;
   description?: string;
@@ -54,7 +54,7 @@ const Page: NextPage<CreatePollPageProps> = ({
 
   const router = useRouter();
 
-  const session = useSession();
+  const session = useUser();
 
   const [persistedFormData, setPersistedFormData] =
     useSessionStorage<NewEventData>(sessionStorageKey, {
@@ -92,16 +92,12 @@ const Page: NextPage<CreatePollPageProps> = ({
 
   const [isRedirecting, setIsRedirecting] = React.useState(false);
 
-  const plausible = usePlausible();
-
   const createPoll = trpc.useMutation(["polls.create"], {
     onSuccess: (res) => {
       setIsRedirecting(true);
-      plausible("Created poll", {
-        props: {
-          numberOfOptions: formData.options?.options?.length,
-          optionsView: formData?.options?.view,
-        },
+      posthog.capture("created poll", {
+        numberOfOptions: formData.options?.options?.length,
+        optionsView: formData?.options?.view,
       });
       setPersistedFormData(initialNewEventData);
       router.replace(`/admin/${res.urlId}?sharing=true`);
@@ -228,4 +224,4 @@ const Page: NextPage<CreatePollPageProps> = ({
   );
 };
 
-export default withSession(Page);
+export default Page;

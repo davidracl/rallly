@@ -2,17 +2,26 @@ import languageParser from "accept-language-parser";
 import { NextRequest, NextResponse } from "next/server";
 
 const supportedLocales = [
+  "ca",
+  "cs",
+  "da",
+  "de",
   "en",
   "es",
-  "de",
+  "fi",
   "fr",
+  "hu",
+  "hr",
   "it",
   "ko",
-  "sv",
-  "hu",
-  "zh",
-  "pt",
+  "nl",
+  "pl",
   "pt-BR",
+  "pt",
+  "ru",
+  "sk",
+  "sv",
+  "zh",
 ];
 
 export function middleware({ headers, cookies, nextUrl }: NextRequest) {
@@ -20,9 +29,8 @@ export function middleware({ headers, cookies, nextUrl }: NextRequest) {
 
   // Check if locale is specified in cookie
   const localeCookie = cookies.get("NEXT_LOCALE");
-
-  if (localeCookie && supportedLocales.includes(localeCookie)) {
-    newUrl.pathname = `/${localeCookie}${newUrl.pathname}`;
+  if (localeCookie && supportedLocales.includes(localeCookie.value)) {
+    newUrl.pathname = `/${localeCookie.value}${newUrl.pathname}`;
     return NextResponse.rewrite(newUrl);
   } else {
     // Check if locale is specified in header
@@ -45,5 +53,5 @@ export function middleware({ headers, cookies, nextUrl }: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:id", "/demo", "/p/:id", "/profile", "/new", "/login"],
+  matcher: ["/admin/:id*", "/demo", "/p/:id*", "/profile", "/new", "/login"],
 };

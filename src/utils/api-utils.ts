@@ -1,8 +1,8 @@
 import * as Eta from "eta";
-import { readFileSync } from "fs";
-import path from "path";
 
 import { prisma } from "~/prisma/db";
+import newCommentTemplate from "~/templates/new-comment";
+import newParticipantTemplate from "~/templates/new-participant";
 
 import { absoluteUrl } from "./absolute-url";
 import { sendEmail } from "./send-email";
@@ -47,7 +47,7 @@ export const sendNotification = async (
       switch (action.type) {
         case "newParticipant":
           await sendEmailTemplate({
-            templateName: "new-participant",
+            templateString: newParticipantTemplate,
             to: poll.user.email,
             subject: `Rallly: ${poll.title} - New Participant`,
             templateVars: {
@@ -63,7 +63,7 @@ export const sendNotification = async (
           break;
         case "newComment":
           await sendEmailTemplate({
-            templateName: "new-comment",
+            templateString: newCommentTemplate,
             to: poll.user.email,
             subject: `Rallly: ${poll.title} - New Comment`,
             templateVars: {
@@ -85,23 +85,19 @@ export const sendNotification = async (
 };
 
 interface SendEmailTemplateParams {
-  templateName: string;
+  templateString: string;
   to: string;
   subject: string;
   templateVars: Record<string, string | undefined>;
 }
 
 export const sendEmailTemplate = async ({
-  templateName,
+  templateString,
   templateVars,
   to,
   subject,
 }: SendEmailTemplateParams) => {
-  const template = readFileSync(
-    path.resolve(process.cwd(), `./templates/${templateName}.html`),
-  ).toString();
-
-  const rendered = await Eta.render(template, templateVars);
+  const rendered = await Eta.render(templateString, templateVars);
 
   if (rendered) {
     await sendEmail({
@@ -110,6 +106,6 @@ export const sendEmailTemplate = async ({
       subject,
     });
   } else {
-    throw new Error(`Failed to render email template: ${templateName}`);
+    throw new Error(`Failed to render email template`);
   }
 };

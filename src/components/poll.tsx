@@ -3,14 +3,17 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { usePlausible } from "next-plausible";
+import posthog from "posthog-js";
 import React from "react";
 import toast from "react-hot-toast";
 import { useMount } from "react-use";
 
 import { Button } from "@/components/button";
+import Discussion from "@/components/discussion";
 import LockClosed from "@/components/icons/lock-closed.svg";
 import Share from "@/components/icons/share.svg";
+import DesktopPoll from "@/components/poll/desktop-poll";
+import MobilePoll from "@/components/poll/mobile-poll";
 import { preventWidows } from "@/utils/prevent-widows";
 
 import { trpc } from "../utils/trpc";
@@ -25,13 +28,8 @@ import { useTouchBeacon } from "./poll/use-touch-beacon";
 import { UserAvatarProvider } from "./poll/user-avatar";
 import VoteIcon from "./poll/vote-icon";
 import { usePoll } from "./poll-context";
-import { useSession } from "./session";
 import Sharing from "./sharing";
-
-const Discussion = React.lazy(() => import("@/components/discussion"));
-
-const DesktopPoll = React.lazy(() => import("@/components/poll/desktop-poll"));
-const MobilePoll = React.lazy(() => import("@/components/poll/mobile-poll"));
+import { useUser } from "./user-provider";
 
 const PollPage: NextPage = () => {
   const { poll, urlId, admin } = usePoll();
@@ -42,10 +40,9 @@ const PollPage: NextPage = () => {
 
   const { t } = useTranslation("app");
 
-  const session = useSession();
+  const session = useUser();
 
   const queryClient = trpc.useContext();
-  const plausible = usePlausible();
 
   const { mutate: updatePollMutation } = useUpdatePollMutation();
 
@@ -57,7 +54,7 @@ const PollPage: NextPage = () => {
         verified: true,
       });
       session.refresh();
-      plausible("Verified email");
+      posthog.capture("verified email");
     },
     onError: () => {
       toast.error(t("linkHasExpired"));
@@ -83,7 +80,7 @@ const PollPage: NextPage = () => {
         {
           onSuccess: () => {
             toast.success(t("notificationsDisabled"));
-            plausible("Unsubscribed from notifications");
+            posthog.capture("unsubscribed from notifications");
           },
         },
       );
@@ -91,7 +88,7 @@ const PollPage: NextPage = () => {
         shallow: true,
       });
     }
-  }, [plausible, urlId, router, updatePollMutation, t]);
+  }, [urlId, router, updatePollMutation, t]);
 
   const checkIfWideScreen = () => window.innerWidth > 640;
 
@@ -204,7 +201,7 @@ const PollPage: NextPage = () => {
               </div>
             </div>
           ) : null}
-          <div className="md:card mb-4 border-t bg-white md:overflow-hidden md:p-0">
+          <div className="mb-4 border border-t bg-white md:overflow-hidden md:rounded-md">
             <div className="p-4 md:border-b md:p-6">
               <div className="space-y-4">
                 <div>
