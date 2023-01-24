@@ -43,9 +43,6 @@ const ErrorPage: React.VoidFunctionComponent<ComponentProps> = ({
             >
               {t("goToHome")}
             </Link>
-            <Button icon={<Chat />} onClick={showCrispChat}>
-              {t("startChat")}
-            </Button>
           </div>
         </div>
       </div>

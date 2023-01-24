@@ -46,7 +46,7 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
     <>
       <DefaultSeo
         openGraph={{
-          siteName: "Rallly",
+          siteName: "Meet",
           type: "website",
           url: absoluteUrl(),
           images: [
@@ -54,13 +54,10 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
               url: absoluteUrl("/og-image-1200.png"),
               width: 1200,
               height: 630,
-              alt: "Rallly | Schedule group meetings",
+              alt: "Meet | Schedule group meetings",
               type: "image/png",
             },
           ],
-        }}
-        facebook={{
-          appId: "920386682263077",
         }}
       />
       <Head>

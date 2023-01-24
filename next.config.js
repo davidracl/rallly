@@ -27,8 +27,13 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/",
+        destination: "/new",
+        permanent: true,
+      },
+      {
         source: "/support",
-        destination: "https://support.rallly.co",
+        destination: "/",
         permanent: true,
       },
     ];
@@ -36,10 +41,6 @@ const nextConfig = {
 
   async rewrites() {
     return [
-      {
-        source: "/",
-        destination: "/home",
-      },
       {
         source: "/p/:urlId",
         destination: "/poll?urlId=:urlId",

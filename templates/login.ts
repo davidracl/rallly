@@ -80,13 +80,9 @@ const template = `<!DOCTYPE html>
       <tr>
         <td align="center" style="background-color: #f3f4f6;">
           <table class="sm-w-full" style="width: 600px;" cellpadding="0" cellspacing="0" role="presentation">
-            <tr>
-              <td class="sm-py-32 sm-px-24" style="padding-left: 48px; padding-right: 48px; padding-top: 36px; padding-bottom: 36px; text-align: center;">
-                <a href="<%= it.homePageUrl %>">
-                  <img src="<%= it.homePageUrl %>/logo.png" width="150" alt="Rallly" style="max-width: 100%; vertical-align: middle; line-height: 100%; border: 0;">
-                </a>
-              </td>
-            </tr>
+          <tr>
+            <td style="height: 48px;"></td>
+          </tr>
             <tr>
               <td align="center" class="sm-px-24">
                 <table style="width: 100%;" cellpadding="0" cellspacing="0" role="presentation">
@@ -120,21 +116,6 @@ const template = `<!DOCTYPE html>
                   </tr>
                   <tr>
                     <td style="height: 48px;"></td>
-                  </tr>
-                  <tr>
-                    <td style="padding-left: 24px; padding-right: 24px; text-align: center; font-size: 12px; color: #4b5563;">
-                      <p style="margin-bottom: 4px; text-transform: uppercase;">RALLLY</p>
-                      <p style="font-style: italic;">Collaborative Scheduling</p>
-                      <p style="cursor: default;">
-                        <a href="<%= it.homePageUrl %>" class="hover-underline" style="color: #6366f1; text-decoration: none;">Website</a>
-                        &bull;
-                        <a href="https://twitter.com/ralllyco" class="hover-underline" style="color: #6366f1; text-decoration: none;">Twitter</a>
-                        &bull;
-                        <a href="https://github.com/lukevella/rallly" class="hover-underline" style="color: #6366f1; text-decoration: none;">Github</a>
-                        &bull;
-                        <a href="mailto:<%= it.supportEmail %>" class="hover-underline" style="color: #6366f1; text-decoration: none;">Contact</a>
-                      </p>
-                    </td>
                   </tr>
                 </table>
               </td>
